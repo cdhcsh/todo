@@ -80,7 +80,7 @@
     - 성공 -> 200
 
 ## DB
-h2 database
+my
 
 ### 변수 정보
 - todo_no number(10) PK : 투두 고유아이디
