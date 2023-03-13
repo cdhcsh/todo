@@ -1,5 +1,6 @@
 package com.todo.repository;
 
+import com.todo.entity.Todo;
 import com.todo.entity.TodoSaveRequestDTO;
 
 import java.util.List;
