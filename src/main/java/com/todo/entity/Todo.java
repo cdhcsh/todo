@@ -1,19 +1,33 @@
 package com.todo.entity;
 
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
-import lombok.Setter;
+import lombok.*;
+import org.hibernate.annotations.ColumnDefault;
 
-@Getter
-@Setter
+import javax.persistence.*;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.validation.constraints.NotEmpty;
+
+@Data
+@Entity
+@Table(name = "todo")
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class Todo {
-    private int todoNo;
-    private String todoName;
-    private String todoContent;
-    private String todoSuccess;
+    @Id
+    @Column(name = "no")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer todoNo;
 
-    public Todo(String todoName, String todoContent) {
-        this.todoName = todoName;
-        this.todoContent = todoContent;
-    }
+    @Column(name = "name")
+    private String todoName;
+
+    @Column(name = "content")
+    private String todoContent;
+
+    @Column(name = "success")
+    @ColumnDefault("'N'")
+    @Builder.Default
+    private String todoSuccess = "N";
+
 }

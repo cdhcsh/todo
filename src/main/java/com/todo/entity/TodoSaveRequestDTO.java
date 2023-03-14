@@ -10,6 +10,6 @@ public class TodoSaveRequestDTO {
     private String todoName;
     private String todoContent;
     public Todo toEntity(){
-        return new Todo(todoName,todoContent);
+        return Todo.builder().todoName(todoName).todoContent(todoContent).build();
     }
 }
