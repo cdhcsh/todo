@@ -1,13 +1,16 @@
 package com.todo.entity;
 
 import lombok.*;
+import org.hibernate.Hibernate;
 import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.*;
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.validation.constraints.NotEmpty;
+import java.util.Objects;
 
-@Data
+@Getter
+@Setter
+@ToString
+@RequiredArgsConstructor
 @Entity
 @Table(name = "todo")
 @Builder
@@ -30,4 +33,16 @@ public class Todo {
     @Builder.Default
     private String todoSuccess = "N";
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
+        Todo todo = (Todo) o;
+        return todoNo != null && Objects.equals(todoNo, todo.todoNo);
+    }
+
+    @Override
+    public int hashCode() {
+        return getClass().hashCode();
+    }
 }
