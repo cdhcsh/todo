@@ -1,6 +1,8 @@
 package com.todo.controller;
 
 import com.todo.entity.TodoSaveRequestDTO;
+import org.springframework.context.MessageSource;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -9,6 +11,9 @@ import java.util.HashMap;
 @RestController
 @RequestMapping("/todo")
 public class TodoController {
+
+    private MessageSource messageSource;
+
 
     /**
      * 모든 todo 조회
@@ -21,12 +26,12 @@ public class TodoController {
 
     /**
      * {todo_no}인 todo 조회
-     * @param todo_no
+     * @param todoNo
      * @return
      */
-    @GetMapping("{todo_no}")
-    public String viewById(@PathVariable int todo_no){
-        return "view " + todo_no;
+    @GetMapping("{todoNo}")
+    public String viewById(@PathVariable @Validated int todoNo){
+        return "view " + todoNo;
     }
 
     /**
@@ -35,7 +40,7 @@ public class TodoController {
      * @return
      */
     @PostMapping
-    public HashMap<Integer,TodoSaveRequestDTO> insert(@RequestBody TodoSaveRequestDTO todo){
+    public HashMap<Integer,TodoSaveRequestDTO> insert(@RequestBody @Validated TodoSaveRequestDTO todo){
         HashMap<Integer,TodoSaveRequestDTO> list = new HashMap<>();
         list.put(1,todo);
         list.put(2,todo);
@@ -45,22 +50,22 @@ public class TodoController {
 
     /**
      * todo 수정
-     * @param todo_no
+     * @param todoNo
      * @return
      */
-    @PatchMapping("{todo_no}")
-    public String update(@PathVariable int todo_no){
-        return "patch " + todo_no;
+    @PatchMapping("{todoNo}")
+    public String update(@PathVariable @Validated int todoNo){
+        return "patch " + todoNo;
     }
 
     /**
      * todo 삭제
-     * @param todo_no
+     * @param todoNo
      * @return
      */
-    @DeleteMapping("{todo_no}")
-    public String delete(@PathVariable int todo_no){
-        return "delete " + todo_no;
+    @DeleteMapping("{todoNo}")
+    public String delete(@PathVariable int todoNo){
+        return "delete " + todoNo;
     }
 
 
