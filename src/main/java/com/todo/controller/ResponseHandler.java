@@ -1,5 +1,6 @@
 package com.todo.controller;
 
+import com.todo.entity.ResponseObject;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.MessageSource;
 import org.springframework.http.HttpStatus;
@@ -22,16 +23,16 @@ public class ResponseHandler {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler({MethodArgumentNotValidException.class})
     public Object validException(MethodArgumentNotValidException ex) {
-        System.out.println("error!");
-        return ex.getBindingResult().getFieldErrors().stream()
-                .map(i -> toMessage(i.getCode(), i.getField())).collect(Collectors.toList());
+        ResponseObject obj = ResponseObject.from();
+        ex.getBindingResult().getFieldErrors().forEach(i -> obj.error(toMessage(i.getCode(), i.getField())));
+        return obj;
     }
 
     @ResponseBody
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler({MethodArgumentTypeMismatchException.class})
-    public String typeMismatchException(MethodArgumentTypeMismatchException ex) {
-        return toMessage(ex.getErrorCode(), ex.getName());
+    public ResponseObject typeMismatchException(MethodArgumentTypeMismatchException ex) {
+        return ResponseObject.from().error(toMessage(ex.getErrorCode(), ex.getName()));
     }
 
     public String toMessage(String type, String name) {
