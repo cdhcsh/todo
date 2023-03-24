@@ -52,8 +52,8 @@ public class TodoController {
 
     /**
      * todo 수정
-     *
      * @param todoNo
+     * @param todo
      * @return
      */
     @PatchMapping("{todoNo}")
