@@ -1,7 +1,7 @@
 package com.todo;
 
 import com.todo.entity.Todo;
-import com.todo.entity.TodoResponseDTO;
+import com.todo.entity.dto.TodoResponseDTO;
 import com.todo.repository.TodoRepository;
 import com.todo.service.TodoService;
 import org.junit.jupiter.api.Test;

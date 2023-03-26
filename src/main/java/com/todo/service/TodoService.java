@@ -1,9 +1,11 @@
 package com.todo.service;
 
 import com.todo.entity.Todo;
-import com.todo.entity.TodoSaveRequestDTO;
-import com.todo.entity.TodoResponseDTO;
-import com.todo.entity.TodoUpdateRequestDTO;
+import com.todo.entity.dto.TodoRequestDTO;
+import com.todo.entity.dto.TodoSaveRequestDTO;
+import com.todo.entity.dto.TodoResponseDTO;
+import com.todo.entity.dto.TodoUpdateRequestDTO;
+import com.todo.exception.TodoNotFoundException;
 import com.todo.repository.TodoRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -26,11 +28,16 @@ public class TodoService {
         Optional<Todo> todo = todoRepository.findById(id);
         return todo.map(TodoResponseDTO::from);
     }
-    public TodoResponseDTO save(TodoSaveRequestDTO todo){
-        return TodoResponseDTO.from(todoRepository.save(todo.toEntity()));
+    public TodoResponseDTO save(TodoRequestDTO dto){
+        return TodoResponseDTO.from(todoRepository.save(dto.toEntity()));
     }
-    public TodoResponseDTO update(TodoUpdateRequestDTO todo){
-        return TodoResponseDTO.from(todoRepository.save(todo.toEntity()));
+    public TodoResponseDTO update(TodoRequestDTO dto) throws TodoNotFoundException {
+        System.out.println(dto.toEntity());
+        Optional<Todo> entity = todoRepository.findById(dto.toEntity().getTodoNo());
+        if(entity.isEmpty()) throw new TodoNotFoundException();
+        Todo todo = entity.get();
+        todo.copy(dto.toEntity());
+        return TodoResponseDTO.from(todoRepository.save(dto.toEntity()));
     }
     public void delete(Integer id){
         todoRepository.deleteById(id);

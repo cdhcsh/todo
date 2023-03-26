@@ -10,8 +10,7 @@ import java.util.Objects;
 @Getter
 @Setter
 @ToString
-@Entity
-@Table(name = "todo")
+@Entity(name = "todo")
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
@@ -32,6 +31,12 @@ public class Todo {
     @Builder.Default
     private String todoSuccess = "N";
 
+    public void copy(Todo todo){
+        this.todoName = todo.todoName;
+        this.todoContent = todo.todoContent;
+        this.todoSuccess = todo.todoSuccess;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -39,8 +44,7 @@ public class Todo {
         Todo todo = (Todo) o;
         return todoNo != null && Objects.equals(todoNo, todo.todoNo);
     }
-
-    @Override
+        @Override
     public int hashCode() {
         return getClass().hashCode();
     }

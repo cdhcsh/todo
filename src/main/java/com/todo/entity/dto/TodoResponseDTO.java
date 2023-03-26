@@ -1,5 +1,6 @@
-package com.todo.entity;
+package com.todo.entity.dto;
 
+import com.todo.entity.Todo;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.ToString;

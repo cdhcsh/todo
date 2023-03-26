@@ -1,11 +1,15 @@
 package com.todo.controller;
 
 import com.todo.entity.ResponseObject;
-import com.todo.entity.TodoSaveRequestDTO;
-import com.todo.entity.TodoUpdateRequestDTO;
+import com.todo.entity.dto.TodoSaveRequestDTO;
+import com.todo.entity.dto.TodoUpdateRequestDTO;
+import com.todo.exception.TodoNoNotMatchedException;
+import com.todo.exception.TodoNotFoundException;
 import com.todo.service.TodoService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.validation.FieldError;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 
 import static com.todo.entity.ResponseObject.from;
@@ -57,7 +61,10 @@ public class TodoController {
      * @return
      */
     @PatchMapping("{todoNo}")
-    public ResponseObject update(@PathVariable int todoNo, @RequestBody @Validated TodoUpdateRequestDTO todo) {
+    public ResponseObject update(@PathVariable int todoNo, @RequestBody @Validated TodoUpdateRequestDTO todo) throws TodoNoNotMatchedException, TodoNotFoundException {
+        if(todoNo != todo.getTodoNo()){
+            throw new TodoNoNotMatchedException();
+        }
         return from(todoService.update(todo));
     }
 
