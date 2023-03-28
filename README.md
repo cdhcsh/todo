@@ -102,6 +102,7 @@
   - 103 : 올바르지 않은 todoSuccess
   - 200 : todoNo가 일치하는 todo가 없음
   - 201 : 올바르지 않은 todoNo
+  - 301 : 요청 url과 다른 todoNo
 
 ## DB
 mysql

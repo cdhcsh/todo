@@ -39,7 +39,7 @@ public class TodoController {
      * @return
      */
     @GetMapping("{todoNo}")
-    public ResponseObject viewById(@PathVariable int todoNo) {
+    public ResponseObject viewById(@PathVariable int todoNo) throws TodoNotFoundException {
         return from(todoService.find(todoNo));
     }
 
@@ -75,9 +75,9 @@ public class TodoController {
      * @return
      */
     @DeleteMapping("{todoNo}")
-    public ResponseObject delete(@PathVariable int todoNo) {
+    public ResponseObject delete(@PathVariable int todoNo) throws TodoNotFoundException {
         todoService.delete(todoNo);
-        return from();
+        return viewAll();
     }
 
 

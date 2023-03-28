@@ -2,6 +2,7 @@ package com.todo.controller;
 
 import com.todo.entity.ResponseObject;
 import com.todo.exception.TodoNoNotMatchedException;
+import com.todo.exception.TodoNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.MessageSource;
 import org.springframework.http.HttpStatus;
@@ -38,6 +39,13 @@ public class ExceptionHandler {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @org.springframework.web.bind.annotation.ExceptionHandler({TodoNoNotMatchedException.class})
     public ResponseObject todoNoNotMachException(TodoNoNotMatchedException ex) {
+        return ResponseObject.from().error(toMessage(ex.getErrorCode(), ex.getName()));
+    }
+
+    @ResponseBody
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @org.springframework.web.bind.annotation.ExceptionHandler({TodoNotFoundException.class})
+    public ResponseObject todoNoNotMachException(TodoNotFoundException ex) {
         return ResponseObject.from().error(toMessage(ex.getErrorCode(), ex.getName()));
     }
 

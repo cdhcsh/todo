@@ -24,9 +24,10 @@ public class TodoService {
                 .map(TodoResponseDTO::from)
                 .collect(Collectors.toList());
     }
-    public Optional<TodoResponseDTO> find(Integer id){
-        Optional<Todo> todo = todoRepository.findById(id);
-        return todo.map(TodoResponseDTO::from);
+    public Optional<TodoResponseDTO> find(Integer id) throws TodoNotFoundException {
+        Optional<Todo> entity = todoRepository.findById(id);
+        if(entity.isEmpty()) throw new TodoNotFoundException();
+        return entity.map(TodoResponseDTO::from);
     }
     public TodoResponseDTO save(TodoRequestDTO dto){
         return TodoResponseDTO.from(todoRepository.save(dto.toEntity()));
@@ -39,7 +40,10 @@ public class TodoService {
         todo.copy(dto.toEntity());
         return TodoResponseDTO.from(todoRepository.save(dto.toEntity()));
     }
-    public void delete(Integer id){
+    public void delete(Integer id) throws TodoNotFoundException {
+        if(todoRepository.findById(id).isEmpty()) {
+            throw new TodoNotFoundException();
+        }
         todoRepository.deleteById(id);
     }
 }
